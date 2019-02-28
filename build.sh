@@ -172,10 +172,10 @@ MENUSTR="Pls select build option"
 
 OPTION=$(whiptail --title "OrangePi Build System" \
 	--menu "$MENUSTR" 20 60 12 --cancel-button Finish --ok-button Select \
+	"0"   "Build Release Image" \
 	"1"   "Build LK" \
 	"2"   "Build Linux" \
 	"3"   "Install Image into EMMC" \
-	"4"   "Build system" \
 	3>&1 1>&2 2>&3)
 
 if [ $OPTION = "0" -o $OPTION = "0" ]; then
@@ -194,7 +194,7 @@ if [ $OPTION = "0" -o $OPTION = "0" ]; then
                 --menu "$MENUSTR" 20 60 3 --cancel-button Finish --ok-button Select \
                 "0"   "Server" \
                 3>&1 1>&2 2>&3)
-	if [ ! -f $ROOT/output/boot.img ]; then
+	if [ ! -f $ROOT/output/kernel/arch/arm/boot/zImage-dtb ]; then
 		export BUILD_KERNEL=1
 		cd $SCRIPTS
 		./kernel_compile.sh
@@ -210,7 +210,7 @@ if [ $OPTION = "0" -o $OPTION = "0" ]; then
 		./kernel_compile.sh
 		cd -
 	fi
-	if [ ! -f $ROOT/output/u-boot/idbloader.img -o ! -f $ROOT/output/u-boot/trust.img -o ! -f $ROOT/output/u-boot/uboot.img ]; then
+	if [ ! -f $ROOT/output/preloader/bin/preloader_bd6737m_35g_b_m0.bin -o ! -f $ROOT/output/lk/build-bd6737m_35g_b_m0/lk.bin -o ! -f $ROOT/output/lk/build-bd6737m_35g_b_m0/logo.bin ]; then
 	    cd $SCRIPTS
 		./uboot_compile.sh
 		cd -
